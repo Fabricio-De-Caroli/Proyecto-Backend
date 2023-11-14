@@ -1,0 +1,13 @@
+{
+  "name": "desafio-entregable-2da-prueba",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "apps.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
