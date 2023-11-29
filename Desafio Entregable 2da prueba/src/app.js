@@ -1,5 +1,7 @@
-import ProductManager from "../managers/ProductManagers.js";
+/* import ProductManager from "../managers/ProductManagers.js"; */
 import express from "express";
+import { cartRouter } from "./routes/carts.routes.js";
+import { productRouter } from "./routes/products.routes.js";
 
 const port = 8080;
 
@@ -10,7 +12,11 @@ app.use(express.urlencoded({extended:true}))
 app.listen(port, ()=>{
     console.log(`Server funcionando en el puerto: ${port}`)
 })
-const path = "./files/products.json"
+
+
+app.use("/api/products", productRouter);
+app.use("/api/carts", cartRouter);
+/* const path = "./files/products.json"
 
 const productManager = new ProductManager(path);
 
@@ -43,4 +49,4 @@ app.get(`/products/idp`, async(req,res)=>{
         })
     }
     res.send({product})
-})
+}) */

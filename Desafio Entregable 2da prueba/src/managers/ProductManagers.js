@@ -1,8 +1,10 @@
 import fs from "fs"
+import path from "path"
+import __dirname from "../utils.js"
 
 export default class ProductManager{
-    constructor(path){
-        this.path = path
+    constructor(pathFile){
+        this.path = path.join(__dirname,`/files/${pathFile}`);
     }
     getProducts = async () =>{
         if(fs.existsSync(this.path)){
