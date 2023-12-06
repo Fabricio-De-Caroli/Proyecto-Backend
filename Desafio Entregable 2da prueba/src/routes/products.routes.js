@@ -28,11 +28,12 @@ router.post("/", async (req,res)=>{
     const product = req.body;
     const products = await productManagerFile.addProduct(product)
 
-    res.send({
+    /* res.send({
         statys:"succes",
         msg:"Producto añadido",
         productos: products
-    })
+    }) */
+    console.log(product)
 })
 
 router.put("/:pid", async (req,res)=>{

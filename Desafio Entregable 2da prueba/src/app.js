@@ -1,7 +1,11 @@
-/* import ProductManager from "../managers/ProductManagers.js"; */
 import express from "express";
 import { cartRouter } from "./routes/carts.routes.js";
 import { productRouter } from "./routes/products.routes.js";
+import {engine} from "express-handlebars";
+import __dirname from "./utils.js";
+import {Server} from "socket.io";
+import { viewRouters } from "./routes/view.routes.js";
+import ProductManager from "./managers/ProductManagers.js";
 
 const port = 8080;
 
@@ -9,44 +13,42 @@ const app = express();
 
 app.use(express.urlencoded({extended:true}))
 
-app.listen(port, ()=>{
+const httpServer = app.listen(port, ()=>{
     console.log(`Server funcionando en el puerto: ${port}`)
 })
 
+const socketServer = new Server(httpServer);
 
+app.engine("handlebars", engine());
+app.set("view engine", "handlebars");
+app.set("views", __dirname + "/views");
+
+app.use(express.static(__dirname + "/public"));
+app.use("/", viewRouters);
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
-/* const path = "./files/products.json"
 
-const productManager = new ProductManager(path);
+const productManager = new ProductManager(socketServer)
 
-const getProduct = productManager.getProducts()
-
-app.get(`/products`, async(req, res)=>{
-    const product = await getProduct
-
-    const limit = req.query.limit;
-
-    if(!limit){
-        return res.send({product})
+socketServer.on('connection', async (socket) => {
+    try {
+        console.log('Nuevo cliente conectado');
+  
+    const products = await productManager.getProducts();
+        socketServer.to(socket.id).emit('realTimeProductsUpdate', { products });
+  
+    socket.on('addProduct', async (data) => {
+        console.log('Mensaje recibido desde el cliente:', data);
+        try {
+                if (data === 'productChanged') {
+                const products = await productManager.getProducts();
+                io.emit('realTimeProductsUpdate', { products });
+            }
+        } catch (error) {
+            console.error('Error al manejar el mensaje:', error.message);
+        }
+    });
+    } catch (error) {
+        console.error('Error en la conexión de socket:', error.message);
     }
-
-    const productLimit = product.slice(0, limit);
-
-    res.send(productLimit);
-})
-
-app.get(`/products/idp`, async(req,res)=>{
-    const idproduct = req.params.idp
-
-    const product = getProduct.find(prod =>{
-        return prod.id === idproduct
-    })
-
-    if(!usuario){
-        return res.send({
-            error: "Usuarios no encontrados"
-        })
-    }
-    res.send({product})
-}) */
+});
