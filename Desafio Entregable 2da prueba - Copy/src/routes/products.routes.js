@@ -1,10 +1,9 @@
 import {Router} from "express";
-import ProductManager from "../dao/managers/ProductManagers.js"
+import { ProductManagerDB } from "../dao/dbManagers/productManagerDB.js";
 import productModel from "../dao/models/product.model.js";
 
-const path = "products.json";
 const router = Router();
-const productManagerFile = new ProductManager(path);
+const productManagerFile = new ProductManagerDB();
 
 router.get("/", async (req,res)=>{
     const products = await productModel.find()

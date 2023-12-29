@@ -1,14 +1,13 @@
 import {Router} from "express";
-import {CartManagerFile} from "../dao/managers/cartManagerFile.js"
+import {CartManagerMongo} from "../dao/dbManagers/cartManagerDB.js"
 import cartModel from "../dao/models/cart.model.js";
 
-const path = "Carts.json";
 const router = Router();
-const cartManagerFile = new CartManagerFile(path);
+const cartManagerFile = new CartManagerMongo();
 
 router.get("/:cid", async (req,res)=>{
     const cid = req.params.cid;
-    const cartID = await cartModel.find({_id:id})
+    const cartID = await CartManagerMongo.getCart({_id:id})
     res.send({
         statys:"succes",
         msg:`Se trajo el carro con ID : ${cid}`,
@@ -18,7 +17,7 @@ router.get("/:cid", async (req,res)=>{
 
 router.post("/", async (req,res)=>{
     const cart = req.body
-    const carts = await cartModel.create(cart)
+    const carts = await CartManagerMongo.createCart()
     res.send({
         statys:"succes",
         msg:"Carrito añadido",
@@ -29,15 +28,18 @@ router.post("/", async (req,res)=>{
 router.post("/:cid/product/:pid", async (req,res)=>{
     const cid = req.params.cid;
     const pid = req.params.pid;
+    const quantity = req.params.quantity;
+
+    const cart =  await  CartManagerMongo.addProductInCart(pid,  cid,  quantity)
     res.send({
         statys:"succes",
-        msg:`Ruta post car - Agrego prodcto al carrito. pid: ${pid} cid: ${cid}`
+        msg: cart
     })
 })
 
 router.delete("/:cid", async (req,res)=>{
     const cid = req.params.cid;
-    const delCart = await cartModel.deleteOne({_id:id})
+    const delCart = await CartManagerMongo.deleteCart({_id:cid})
     res.send({
         statys:"succes",
         msg:`Se borro el carro con ID : ${cid}`,
