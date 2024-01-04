@@ -6,6 +6,7 @@ import __dirname from "./utils.js";
 import {Server} from "socket.io";
 import { viewRouters } from "./routes/view.routes.js";
 import ProductManager from "./dao/managers/ProductManagers.js";
+import productModel from "./dao/models/product.model.js";
 import mongoose from "mongoose";
 
 const port = 8080;
@@ -13,9 +14,9 @@ const port = 8080;
 const app = express();
 
 
-const MONGO = "mongodb+srv://Fabricio:<password>@dbproyectobackend.5xkq1gk.mongodb.net/?retryWrites=true&w=majority"
+const MONGO = "mongodb+srv://Fabricio:fabri@dbproyectobackend.5xkq1gk.mongodb.net/ProductosCoderHouse"
 
-/* const coneccion = mongoose.connect(MONGO); */
+const coneccion = mongoose.connect(MONGO);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -31,7 +32,19 @@ app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
 app.use(express.static(__dirname + "/public"));
-app.use("/", viewRouters);
+/* app.use("/", viewRouters); */
+app.get("/",  async(req,res)=>{
+    const { page }=  req.query;
+    const products = await productModel.paginate(
+        {},
+        {
+            limit: 5,
+            lean: true,
+            page: page ?? 1
+        }
+    );
+    res.render("home",{products})
+})
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
 

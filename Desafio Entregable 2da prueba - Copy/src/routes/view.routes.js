@@ -1,18 +1,19 @@
 import express from "express";
-import ProductManager from "../dao/managers/ProductManagers.js";
+import {ProductManagerDB} from "../dao/dbManagers/productManagerDB.js";
 
 const router = express.Router();
-const productManaer = new ProductManager();
+const productManager = new ProductManagerDB();
 
 router.get("/", async(req, res) =>{
     try{
-        const product = await productManaer.getProducts();
-
-        res.render("home", {product});
+        const products = await ProductManagerDB.getProduct();
+        res.render("products", {products});
     }catch(error){
         console.error("Error al obtener la lista de productos", error.message);
         res.status(500).send("Error interno del server")
+        
     }
+    
 });
 
 router.get("/realtimeproducts", (req, res) =>{
