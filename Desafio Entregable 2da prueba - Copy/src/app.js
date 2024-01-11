@@ -1,10 +1,13 @@
 import express from "express";
+import session  from "express-session"
+import MongoStore from "connect-mongo"
 import { cartRouter } from "./routes/carts.routes.js";
 import { productRouter } from "./routes/products.routes.js";
 import {engine} from "express-handlebars";
 import __dirname from "./utils.js";
 import {Server} from "socket.io";
 import { viewRouters } from "./routes/view.routes.js";
+import  { sessionRouter } from "./routes/sessions.routes.js"
 import ProductManager from "./dao/managers/ProductManagers.js";
 import productModel from "./dao/models/product.model.js";
 import mongoose from "mongoose";
@@ -12,7 +15,6 @@ import mongoose from "mongoose";
 const port = 8080;
 
 const app = express();
-
 
 const MONGO = "mongodb+srv://Fabricio:fabri@dbproyectobackend.5xkq1gk.mongodb.net/ProductosCoderHouse"
 
@@ -27,14 +29,27 @@ const httpServer = app.listen(port, ()=>{
 
 const socketServer = new Server(httpServer);
 
+app.use(express.static(__dirname + "/public"));
+app.use(session({
+    store: new MongoStore({
+        mongoUrl: MONGO,
+        ttl:3600
+    }),
+    secret:"CoderSecret",
+    resave:false,
+    saveUninitialized:false
+
+}))
+
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
-app.use(express.static(__dirname + "/public"));
-/* app.use("/", viewRouters); */
-app.get("/",  async(req,res)=>{
+app.use("/", viewRouters);
+app.use("/api/sessions", sessionRouter);
+app.get("/products",  async(req,res)=>{
     const { page }=  req.query;
+    
     const products = await productModel.paginate(
         {},
         {
@@ -43,7 +58,7 @@ app.get("/",  async(req,res)=>{
             page: page ?? 1
         }
     );
-    res.render("home",{products})
+    res.render("home",{products, user:req.session.user})
 })
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);

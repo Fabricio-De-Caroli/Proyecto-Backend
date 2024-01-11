@@ -7,6 +7,8 @@ const productManagerFile = new ProductManagerDB();
 
 router.get("/", async (req,res)=>{
     const products = await productModel.find()
+    req.session.user = {
+        full_name: `${user.first_name}${user.last_name}`}
 
     res.send({
         status:"succes",
