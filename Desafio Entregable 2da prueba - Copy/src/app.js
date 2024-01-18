@@ -11,6 +11,8 @@ import  { sessionRouter } from "./routes/sessions.routes.js"
 import ProductManager from "./dao/managers/ProductManagers.js";
 import productModel from "./dao/models/product.model.js";
 import mongoose from "mongoose";
+import passport from "passport";
+import inicializePassport from "./config/passport.config.js";
 
 const port = 8080;
 
@@ -40,6 +42,9 @@ app.use(session({
     saveUninitialized:false
 
 }))
+inicializePassport()
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
