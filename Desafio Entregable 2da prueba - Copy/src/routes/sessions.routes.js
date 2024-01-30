@@ -9,10 +9,6 @@ router.post("/register", passport.authenticate("register",{failureRedirect:"/api
 async(req,res)=>{
     res.send({status:"success", message:"User registrado"})
 })
-router.get("/failregister", async (req,res)=>{
-    console.log("Fallo el registro");
-    res.send({error:"fallo en el registro"})
-})
 
 router.post("/login",passport.authenticate("login", {failureRedirect:"/api/sessions/faillogin"}),
 async (req,res) =>{
@@ -37,6 +33,11 @@ async (req,res) =>{
     res.send({status:"success", payload:req.user})
 }
 )
+
+router.get("/failregister", async (req,res)=>{
+    console.log("Fallo el registro");
+    res.send({error:"fallo en el registro"})
+})
 
 router.get("/faillogin", (req, res)=>{
     res.send({error:"fail login"})
