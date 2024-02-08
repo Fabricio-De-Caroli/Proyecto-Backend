@@ -1,48 +1,19 @@
 import { Router } from "express";
-import {ProductManagerDB} from "../dao/dbManagers/productManagerDB.js";
+import { viewController } from "../Controler/view.controler.js";
 
 const router = Router();
-const productManager = new ProductManagerDB();
 
-/* router.get("/", async(req, res) =>{
-    try{
-        const products = await ProductManagerDB.getProduct();
-        res.render("products", {products});
-    }catch(error){
-        console.error("Error al obtener la lista de productos", error.message);
-        res.status(500).send("Error interno del server")
-        
-    }
-    
-}); */
+const publicAccess = viewController.publicAccess
 
-const publicAccess = (req,res,next) =>{
-    if(req.session.user){
-        return res.redirect("/");
-    }
-    next();
-}
+const privateAccess = viewController.privateAccess
 
-const privateAccess = (req,res,next) =>{
-    if(!req.session.user){
-        return res.redirect("/login");
-    }
-    next();
-}
+router.get("/realtimeproducts", viewController.realTimeproducts);
 
-router.get("/realtimeproducts", (req, res) =>{
-    res.render("realTimeProducs");
-});
+router.get("/register", publicAccess,viewController.registerController)
 
-router.get("/register", publicAccess,(req,res)=>{
-    res.render("register")
-})
-router.get("/login", publicAccess,(req,res)=>{
-    res.render("login")
-})
-router.get("/", privateAccess,(req,res)=>{
-    res.render("profile", {user:req.session.user})
-})
+router.get("/login", publicAccess, viewController.loginController)
+
+router.get("/", privateAccess,viewController.profileController)
 
 
 export {router as viewRouters};

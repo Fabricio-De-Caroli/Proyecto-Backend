@@ -1,5 +1,5 @@
-import cartModel from "../models/cart.model.js";
-import productModel from "../models/product.model.js";
+import cartModel from "../persistence/models/cart.model.js";
+import productModel from "../persistence/models/product.model.js";
 
 class CartManagerMongo{
 
