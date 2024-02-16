@@ -1,0 +1,9 @@
+<div>
+    <p>Bienvenido {{user.full_name}}</p>
+    <h1>Lisado de Producos</h1>
+    <ul>
+        {{#each products}}
+        <li>{{this.price}}-{{this.title}}-{{this.id}}</li>
+        {{/each}}
+    </ul>
+</div>
