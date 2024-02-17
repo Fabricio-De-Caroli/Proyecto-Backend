@@ -74,18 +74,6 @@ app.get("/products",  async(req,res)=>{
 })
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
-/* app.post("/api/login",(req,res)=>{
-    const {email,password} = req.body;
-    const user = users.find(user=> user.email === email && user.password === password)
-    if (!user){
-        res.status(400).send({
-            status:"error",
-            error:"Datos incorrectos"
-        })
-    }
-    const access_token = generateToken(user);
-    res.send({status:"success",access_token})
-}) */
 app.get("/api/current",  authToken,(req,res)=>{
     res.send({status:"success", payload:req.user})
 })
