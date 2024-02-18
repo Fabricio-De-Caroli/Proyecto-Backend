@@ -23,7 +23,7 @@ class viewController{
         res.render("login")
     }
     static profileController = (req,res)=>{
-        res.render("profile", {user:req.session.user})
+        res.render("profile")
     }
 }
 

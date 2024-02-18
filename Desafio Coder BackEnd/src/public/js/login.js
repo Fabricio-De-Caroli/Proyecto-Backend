@@ -16,7 +16,7 @@ form.addEventListener(`submit`, e=>{
     .then(json=> {
         if(json.status==="success"){
             localStorage.setItem("token", json.access_token)
-            window.location.replace("http://localhost:8080/profile")
+            window.location.replace("http://localhost:8080/")
         }else{
             alert(json.error)
         }

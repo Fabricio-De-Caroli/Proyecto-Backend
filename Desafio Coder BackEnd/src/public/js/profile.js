@@ -3,9 +3,10 @@ fetch("/api/current", {
     headers:{
         "authorization": `Bearer ${localStorage.getItem("token")}`
     }
-}).then(response=>{
+})
+.then(response=>{
     if(response.status===401){
-        window.location.replace("api/sessions/login")
+        window.location.replace("/login")
     }else{
         return response.json();
     }

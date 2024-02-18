@@ -20,7 +20,7 @@ class sessionController{
     static login =  async(req,res) =>{
         const {email,password} = req.body;
         const user = users.find(user=>user.email === email && user.password === password);
-        if (user){
+        if (!user){
             console.log(user)
             res.status(400).send({
                 status:"error",
