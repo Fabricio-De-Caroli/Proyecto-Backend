@@ -1,5 +1,6 @@
 import { generateToken } from "../utils.js";
 import userModel from "../persistence/models/Users.model.js";
+import { validatePassword } from "../utils.js";
 
 const users = []
 class sessionController{
@@ -19,19 +20,21 @@ class sessionController{
     }
     static login =  async(req,res) =>{
         const {email,password} = req.body;
-        const user = users.find(user=>user.email === email && user.password === password);
-        if (!user){
+        const user = await userModel.findOne({"email":email}) /* users.find(user=>user.email === email && user.password === password); */
+        const existUser= validatePassword(password, user)
+        if (!existUser){
             console.log(user)
             res.status(400).send({
                 status:"error",
                 error:"Datos incorrectos"
             })
+        }else{
+            const access_token = generateToken(user);
+            res.send({
+                status:"success",
+                access_token})
+        
         }
-        const access_token = generateToken(user);
-        res.send({
-            status:"success",
-            access_token
-        })
         
         /* if(req.user.email === "adminCoder@coder.com" || req.user.password === "adminCod3r123"){
             req.session.user ={

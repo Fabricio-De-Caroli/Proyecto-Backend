@@ -13,7 +13,7 @@ router.get("/register", publicAccess,viewController.registerController)
 
 router.get("/login", publicAccess, viewController.loginController)
 
-router.get("/",privateAccess,viewController.profileController)
+router.get("/",viewController.profileController)
 
 
 export {router as viewRouters};

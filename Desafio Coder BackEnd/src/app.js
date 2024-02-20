@@ -26,7 +26,6 @@ const MONGO = "mongodb+srv://Fabricio:fabri@dbproyectobackend.5xkq1gk.mongodb.ne
 
 const coneccion = mongoose.connect(MONGO);
 
-const users = []
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
