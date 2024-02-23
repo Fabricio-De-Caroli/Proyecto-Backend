@@ -8,13 +8,13 @@ import __dirname from "./utils.js";
 import {Server} from "socket.io";
 import { viewRouters } from "./routes/view.routes.js";
 import  { sessionRouter } from "./routes/sessions.routes.js"
-import ProductManager from "./persistence/managers/ProductManagers.js";
-import productModel from "./persistence/models/product.model.js";
+import ProductManager from "./dao/managers/memory/ProductManagers.js";
+import productModel from "./dao/models/product.model.js";
 import mongoose from "mongoose";
 import passport from "passport";
 import inicializePassport from "./config/passport.config.js";
 import { authToken, generateToken } from "./utils.js";
-import userModel from "./persistence/models/Users.model.js";
+import {options} from "./config/config.js"
 
 //configuracion -> persistencia -> servicio -> controlador -> ruta -> app
 

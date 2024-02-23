@@ -14,7 +14,7 @@ class viewController{
         next();
     }
     static realTimeproducts = (req, res) =>{
-        res.render("realTimeProducs");
+        res.render("realTimeProducts");
     }
     static registerController = (req,res)=>{
         res.render("register")

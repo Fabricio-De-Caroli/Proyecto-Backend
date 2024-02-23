@@ -1,5 +1,5 @@
 import { generateToken } from "../utils.js";
-import userModel from "../persistence/models/Users.model.js";
+import userModel from "../dao/models/Users.model.js";
 import { validatePassword } from "../utils.js";
 
 const users = []

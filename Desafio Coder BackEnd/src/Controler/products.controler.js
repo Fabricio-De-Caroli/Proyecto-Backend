@@ -1,8 +1,10 @@
-import productModel from "../persistence/models/product.model.js";
+import userModel from "../dao/models/Users.model.js";
+import productModel from "../dao/models/product.model.js";
 
 class productController{
     static getProducts = async (req,res)=>{
         const products = await productModel.find()
+        const user = userModel.findOne()
         req.session.user = {
             full_name: `${user.first_name}${user.last_name}`}
     
@@ -25,7 +27,7 @@ class productController{
         const products = await productModel.create(product)
     
         res.send({
-            statys:"succes",
+            status:"succes",
             msg:"Producto añadido",
             productos: products
         })

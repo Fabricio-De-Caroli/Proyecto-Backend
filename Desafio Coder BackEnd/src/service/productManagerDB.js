@@ -1,4 +1,4 @@
-import productModel from "../persistence/models/product.model.js";
+import productModel from "../dao/models/product.model.js";
 
 class ProductManagerDB{
 
