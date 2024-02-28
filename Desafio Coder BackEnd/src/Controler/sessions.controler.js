@@ -20,7 +20,7 @@ class sessionController{
     }
     static login =  async(req,res) =>{
         const {email,password} = req.body;
-        const user = await userModel.findOne({"email":email}) /* users.find(user=>user.email === email && user.password === password); */
+        const user = await userModel.findOne({"email":email})
         const existUser= validatePassword(password, user)
         if (!existUser){
             console.log(user)
@@ -35,16 +35,6 @@ class sessionController{
                 access_token})
         
         }
-        
-        /* if(req.user.email === "adminCoder@coder.com" || req.user.password === "adminCod3r123"){
-            req.session.user ={
-                full_name:`${req.user.first_name}${req.user.last_name}`,
-                email: user.email,
-                age: user.age,
-                rol: "Admin"
-            }
-        } */
-        
     }
     static failRegister = async (req,res)=>{
         console.log("Fallo el registro");

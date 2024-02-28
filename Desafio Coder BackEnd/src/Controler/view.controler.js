@@ -1,4 +1,4 @@
-import { ProductManagerDB } from "../service/productManagerDB.js";
+import { productMongo } from "../dao/managers/mongo/Product.mongo.js";
 
 class viewController{
     static publicAccess = (req,res,next) =>{

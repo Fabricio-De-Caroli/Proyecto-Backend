@@ -1,22 +1,24 @@
-import cartModel from "../dao/models/cart.model.js";
-import productModel from "../dao/models/product.model.js";
+import cartModel from "../../models/cart.model.js";
+import productModel from "../../models/product.model.js";
 
-class CartManagerMongo{
-
+class cartMongo{
+    constructor(){
+        this.model = cartModel
+    }
     getCarts = async () =>{
-        const carts = await cartModel.find()
+        const carts = await this.model.find()
         return carts;
     }
     getCart = async (cid) =>{
-        const cart = await cartModel.find({_id:cid})
+        const cart = await this.model.find({_id:cid})
         return cart;
     }
     createCart = async () =>{
-        const cart = await cartModel.create({});
+        const cart = await this.model.create({});
         return cart
     }
     addProductInCart = async(cid, pid, quantity)=>{
-        const cart = await cartModel.findOne({_id:cid});
+        const cart = await this.model.findOne({_id:cid});
         if(!cart){
             return{
                 status: "error",
@@ -59,4 +61,4 @@ class CartManagerMongo{
     }
 }
 
-export {CartManagerMongo};
+export {cartMongo};

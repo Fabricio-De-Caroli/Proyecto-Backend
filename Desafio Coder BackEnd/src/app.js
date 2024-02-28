@@ -8,7 +8,7 @@ import __dirname from "./utils.js";
 import {Server} from "socket.io";
 import { viewRouters } from "./routes/view.routes.js";
 import  { sessionRouter } from "./routes/sessions.routes.js"
-import ProductManager from "./dao/managers/memory/ProductManagers.js";
+import { productMemory } from "./dao/managers/memory/Product.memory.js";
 import productModel from "./dao/models/product.model.js";
 import mongoose from "mongoose";
 import passport from "passport";
@@ -78,20 +78,20 @@ app.get("/api/current",  authToken,(req,res)=>{
 })
 
 
-const productManager = new ProductManager(socketServer)
+const productManager = new productMemory(socketServer)
 
 socketServer.on('connection', async (socket) => {
     try {
         console.log('Nuevo cliente conectado');
 
-    const products = await productManager.getProducts();
+    const products = await productMemory.getProducts();
         socketServer.to(socket.id).emit('realTimeProductsUpdate', { products });
 
     socket.on('addProduct', async (data) => {
         console.log('Mensaje recibido desde el cliente:', data);
         try {
                 if (data === 'productChanged') {
-                const products = await productManager.getProducts();
+                const products = await productMemory.getProducts();
                 io.emit('realTimeProductsUpdate', { products });
             }
         } catch (error) {

@@ -13,5 +13,5 @@ fetch("/api/current", {
 })
 .then(json =>{
     const p = document.getElementById("result");
-    p.innerHTML= `Hola, tus datos son ${json.payload.email} y ${json.payload.password}`
+    p.innerHTML= `Hola, su email es:${json.payload.email}, su contraseña es:${json.payload.password}, su rol es:${json.payload.rol} y su id de carrito es: ${json.payload.cart}`
 })

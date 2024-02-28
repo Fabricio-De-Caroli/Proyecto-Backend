@@ -9,32 +9,43 @@ import { createHash, validatePassword } from "../utils.js";
 const LocalStrategy =  local.Strategy;
 
 const inicializePassport = () => {
-    passport.use("register", new  LocalStrategy(
-        {passReqToCallback:true,  usernameField:"email"},
-        async (req, username, password, done) =>  {
-            const { first_name, last_name, email, age } =  req.body;
+    passport.use("register", new LocalStrategy(
+        {
+            passReqToCallback:true,
+            usernameField:"email"
+        },
+        async (req, username, password, done) =>{
             try{
-                let user = await userModel.findOne({email:username});
-                if(!user){
+                const {name} = req.body;
+                const user = await userModel.findOne({email:username});
+                const cart = cartModel.create()
+                if(user){
                     console.log("Usuario ya registrado");
                     return done(null, false)
                 }
-                const newUser =  {
-                    first_name,
-                    last_name,
-                    email,
-                    age,
-                    password: createHash(password)
+                let rol="user";
+                if(username.endsWith("@coder.com")){
+                    rol = "admin";
                 }
-                const result = await userModel.create(newUser);
-                return done(null, result)
+                const newUser =  {
+                    name,
+                    email:username,
+                    password: createHash(password),
+                    rol,
+                    cart:cart._id
+                }
+                const userCreated = await userModel.create(newUser);
+                return done(null, userCreated)
             }catch (error){
                 return done(error)
             }
         }
     ));
 
-    passport.use("login", new LocalStrategy({usernameField:"email"},
+    passport.use("login", new LocalStrategy(
+        {
+            usernameField:"email"
+        },
     async(username, password, done)=>{
         try{
             const user = await userModel.findOne({email:username})

@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 const collection = "Users";
 
 const schema = new  mongoose.Schema({
+    full_name:{
+        type:String,
+        require:true
+    },
     first_name:{
         type:String,
         require:true

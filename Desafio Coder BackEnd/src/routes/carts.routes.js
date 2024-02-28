@@ -11,4 +11,6 @@ router.post("/:cid/product/:pid", cartController.addProductInCart)
 
 router.delete("/:cid", cartController.deleteCart)
 
+router.post("/cid/purchase",cartController.purchase);
+
 export {router as cartRouter};

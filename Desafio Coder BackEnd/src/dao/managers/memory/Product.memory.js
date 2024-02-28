@@ -1,40 +1,25 @@
 import fs from "fs"
-import path from "path"
 import __dirname from "../../../utils.js"
+import {v4 as uuidv4} from "uuid"
 
-export default class ProductManager{
-    constructor(pathFile){
-        this.path = path.join(__dirname,`/files/${pathFile}`);
+class productMemory{
+    constructor(){
+        this.products = [];
     }
     getProducts = async () =>{
-        if(fs.existsSync(this.path)){
-            const data = await fs.promises.readFile(this.path, "utf-8");
-            const products = JSON.parse(data);
-            return products
-        }else{
-            return []
-        }
+        return this.products
     }
     addProduct = async (product) =>{
-        const products = await this.getProducts();
-        if(products.length === 0){
-            product.id = 1;
-        }else{
-            product.id = products[products.length-1].id + 1;
-        }
-        products.push(product);
-        await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"))
-        return products;
+        product.id = uuidv4();
+        this.products.push(product)
     }
     
     getProductsById = async (id) =>{
-        const products = await this.getProducts();
-        let product = products.find(p => p.id == id); 
-        if(product){
-            return product;
-        }else{
-            return console.log("not found");
+        const product = this.products.find(p=>p.id === id);
+        if(!product){
+            throw new Error("No se pudo encontrar el producto");
         }
+        return product;
     }
     deleteProduct = async (id) =>{
         try{
@@ -72,15 +57,4 @@ export default class ProductManager{
 
 }
 
-
-/* const productManager = new ProductManager();
-
-productManager.addProduct("rdr2", "cualquiera", 60, "cualquiera", 1, 29)
-productManager.addProduct("nfs", "safsa", 30, "sfafsa", 2, 54)
-
-let takeProduct = productManager.getProductsById(2) */
-
-
-
-
-/* console.log(takeProduct) */
+export { productMemory };
