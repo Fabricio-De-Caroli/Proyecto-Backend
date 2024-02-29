@@ -2,6 +2,7 @@ import {fileURLToPath} from "url";
 import { dirname } from "path";
 import bcrypt from  "bcrypt"
 import jwt from "jsonwebtoken"
+import { faker, es } from "@faker-js/faker";
 
 const private_key = "CoderKey"
 
@@ -26,6 +27,34 @@ export const authToken =(req,res,next)=>{
         next()
         }
     )
+}
+
+export const customFaker = new faker({locale: [es]})
+
+const { commerce, image, database, string, internet, person, phone, lorem } = customFaker;
+
+export const generateProduct = ()=>{
+    return{
+        id: database.mongodbobjectId(),
+        title: commerce.productName(),
+        description: commerce.productDescription(),
+        code:string.alphanumeric(10),
+        price:parseFloat(commerce.price()),
+        status:commerce.productStatus,
+        stock:parseInt(string.numeric(2)),
+        category:commerce.productCategory,
+        thumbnails:image.url()
+    }
+}
+
+export const showProduct = ()=>{
+    const productNumber = Math.ceil(Math.random()*10);
+    let products = [];
+    for (let i = 0; i < productNumber; i++) {
+        const product = generateProduct();
+        products.push(product);
+    }
+    return products;
 }
 
 const __filename = fileURLToPath(import.meta.url);
