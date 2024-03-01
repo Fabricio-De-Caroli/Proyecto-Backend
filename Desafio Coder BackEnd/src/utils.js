@@ -2,7 +2,7 @@ import {fileURLToPath} from "url";
 import { dirname } from "path";
 import bcrypt from  "bcrypt"
 import jwt from "jsonwebtoken"
-import { faker, es } from "@faker-js/faker";
+import { Faker, es, en } from "@faker-js/faker";
 
 const private_key = "CoderKey"
 
@@ -29,13 +29,13 @@ export const authToken =(req,res,next)=>{
     )
 }
 
-export const customFaker = new faker({locale: [es]})
+export const customFaker = new Faker({locale: [en]})
 
 const { commerce, image, database, string, internet, person, phone, lorem } = customFaker;
 
 export const generateProduct = ()=>{
     return{
-        id: database.mongodbobjectId(),
+        id: database.mongodbObjectId(),
         title: commerce.productName(),
         description: commerce.productDescription(),
         code:string.alphanumeric(10),

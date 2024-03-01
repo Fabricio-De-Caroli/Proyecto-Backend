@@ -14,7 +14,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import inicializePassport from "./config/passport.config.js";
 import { authToken, generateToken } from "./utils.js";
-import {options} from "./config/config.js"
+import { mokingProductsRoutes } from "./routes/mockingProducts.routes.js";
 
 //configuracion -> persistencia -> servicio -> controlador -> ruta -> app
 
@@ -58,6 +58,7 @@ app.set("views", __dirname + "/views");
 app.use(express.static("./src/public"))
 app.use("/", viewRouters);
 app.use("/api/sessions", sessionRouter);
+app.use("/api/mockingproducts", mokingProductsRoutes);
 app.get("/products",  async(req,res)=>{
     const { page }=  req.query;
     
@@ -76,6 +77,7 @@ app.use("/api/carts", cartRouter);
 app.get("/api/current",  authToken,(req,res)=>{
     res.send({status:"success", payload:req.user})
 })
+
 
 
 const productManager = new productMemory(socketServer)
