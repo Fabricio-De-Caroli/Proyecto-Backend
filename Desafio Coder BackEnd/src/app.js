@@ -14,7 +14,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import inicializePassport from "./config/passport.config.js";
 import { authToken, generateToken } from "./utils.js";
-import { mokingProductsRoutes } from "./routes/mockingProducts.routes.js";
+import { addLogger } from "./config/logger.js";
 
 //configuracion -> persistencia -> servicio -> controlador -> ruta -> app
 
@@ -58,7 +58,11 @@ app.set("views", __dirname + "/views");
 app.use(express.static("./src/public"))
 app.use("/", viewRouters);
 app.use("/api/sessions", sessionRouter);
-app.use("/api/mockingproducts", mokingProductsRoutes);
+app.use(addLogger);
+app.get("/loggerTest", (req,res)=>{
+    req.logger.warn("Error de prueba")
+    res.send("Sitio de prueba para el loger")
+})
 app.get("/products",  async(req,res)=>{
     const { page }=  req.query;
     
