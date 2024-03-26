@@ -15,6 +15,8 @@ import passport from "passport";
 import inicializePassport from "./config/passport.config.js";
 import { authToken, generateToken } from "./utils.js";
 import { addLogger } from "./config/logger.js";
+import { swaggerSpecs } from "./config/docConfig.js";
+import swaggerUi from "swagger-ui-express";
 
 //configuracion -> persistencia -> servicio -> controlador -> ruta -> app
 
@@ -81,6 +83,7 @@ app.use("/api/carts", cartRouter);
 app.get("/api/current",  authToken,(req,res)=>{
     res.send({status:"success", payload:req.user})
 })
+app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(swaggerSpecs));
 
 
 

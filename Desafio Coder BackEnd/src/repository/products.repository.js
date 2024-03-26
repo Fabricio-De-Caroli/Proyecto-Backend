@@ -6,7 +6,7 @@ export class productRepository{
     }
     async getProducts(){
         const product = await this.dao.get();
-        return product
+        return product;
     }
     async createProduct(product){
         const productDto = new createProductsDto(product);

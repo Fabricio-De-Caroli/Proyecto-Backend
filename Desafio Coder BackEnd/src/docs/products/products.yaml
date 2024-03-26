@@ -1,0 +1,41 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los products se obtuvieron de forma correcta
+            content:
+              application/json:
+                schema:
+                type: array
+                items:
+                  $ref: "$#components/schemas/products"
+        "500":
+          description: "Error interno del servidor"
+    post:
+      summary: Crear product
+      tags:
+        - Products
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+        responses:
+          "200":
+            description: EL producto se creo de forma correcta
+            content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: String
+                  payload:
+                    $ref: "#components/schemas/Products"
+          "500":
+            description: Error interno del servidor
