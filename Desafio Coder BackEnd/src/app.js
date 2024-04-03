@@ -111,3 +111,5 @@ socketServer.on('connection', async (socket) => {
         console.error('Error en la conexión de socket:', error.message);
     }
 });
+
+export { app };
