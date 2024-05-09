@@ -28,7 +28,7 @@ class productController{
         const products = await productService.createProduct(product)
     
         res.send({
-            status:"succes",
+            status:"success",
             msg:"Producto añadido",
             productos: products
         })

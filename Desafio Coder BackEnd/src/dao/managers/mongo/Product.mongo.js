@@ -4,32 +4,9 @@ class productMongo{
     constructor(){
         this.model = productModel
     }
-    getProduct =  async (req, res) =>{
-        try{
-            const { page } = req.query;
-            const  products =  await this.model.paginate(
-                {},
-                {
-                    limit: 5,
-                    lean: true,
-                    page: page ?? 1
-                }
-            );
-            res.json({
-                status: "success",
-                payload: products.docs,
-                totalPages:products.totalPages,
-                prevPage: products.prevPage,
-                nextPage: products.nextPage,
-                page:  products.page,
-                hasPrevPage: products.hasPrevPage,
-                hasNextPage: products.hasNextPage,
-                prevLink:  products.prevPage ? `/api/products?page=${products.prevPage}` : null,
-                nextLink:  products.nextPage ? `/api/products?page=${products.nextPage}` : null
-            })
-        }catch(error){
-            res.status(500).json({status: "error",   error: error.message});
-        }
+    getProducts =  async (req, res) =>{
+        const products = await this.model.find()
+            return products;
     }
     createProduct = async (product)=>{
         try {

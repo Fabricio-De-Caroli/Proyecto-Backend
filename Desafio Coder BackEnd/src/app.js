@@ -4,7 +4,7 @@ import MongoStore from "connect-mongo"
 import { cartRouter } from "./routes/carts.routes.js";
 import { productRouter } from "./routes/products.routes.js";
 import {engine} from "express-handlebars";
-import __dirname from "./utils.js";
+import { __dirname, authToken } from "./utils.js";
 import {Server} from "socket.io";
 import { viewRouters } from "./routes/view.routes.js";
 import  { sessionRouter } from "./routes/sessions.routes.js"
@@ -13,7 +13,6 @@ import productModel from "./dao/models/product.model.js";
 import mongoose from "mongoose";
 import passport from "passport";
 import inicializePassport from "./config/passport.config.js";
-import { authToken, generateToken } from "./utils.js";
 import { addLogger } from "./config/logger.js";
 import { swaggerSpecs } from "./config/docConfig.js";
 import swaggerUi from "swagger-ui-express";
@@ -80,10 +79,11 @@ app.get("/products",  async(req,res)=>{
 })
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
-app.get("/api/current",  authToken,(req,res)=>{
+app.get("/api/current",authToken,(req,res)=>{
     res.send({status:"success", payload:req.user})
 })
 app.use("/api/docs", swaggerUi.serve,swaggerUi.setup(swaggerSpecs));
+app.use("/api/users",)
 
 
 

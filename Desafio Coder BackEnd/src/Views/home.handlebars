@@ -1,9 +1,20 @@
 <div>
     <p>Bienvenido {{user.full_name}}</p>
-    <h1>Lisado de Producos</h1>
+    <h1>Lisado de Productos</h1>
     <ul>
-        {{#each products}}
-        <li>{{this.price}}-{{this.title}}-{{this.id}}</li>
+        {{#each products.docs}}
+            <li>{{this.price}}-{{this.title}}-{{this.id}}</li>
         {{/each}}
     </ul>
+    <div>
+        {{#if products.hasPrevPage}}
+            <a href="/products?page={{products.prevPage}}">Anterior</a>
+        {{/if}}
+
+        <span>Pagina {{products.page}}</span>
+
+        {{#if products.hasNextPage}}
+            <a href="/products?page={{products.nextPage}}">Siguiente</a>
+        {{/if}}
+    </div>
 </div>

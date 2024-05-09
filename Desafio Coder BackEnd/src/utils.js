@@ -7,11 +7,14 @@ import { Faker, es, en } from "@faker-js/faker";
 const private_key = "CoderKey"
 
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+
 export const validatePassword = (password, user) => bcrypt.compareSync(password, user.password)
+
 export const generateToken =(user) =>{
     const token =jwt.sign({user},private_key,{expiresIn:"1d"})
     return token
 }
+
 export const authToken =(req,res,next)=>{
     const authHeader =req.headers.authorization
     const token = authHeader.split(` `)[1];
@@ -58,6 +61,6 @@ export const showProduct = ()=>{
 }
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export const __dirname = dirname(__filename);
 
-export default __dirname;
+/* export default __dirname; */

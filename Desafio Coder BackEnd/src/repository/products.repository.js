@@ -2,11 +2,12 @@ import { createProductsDto, getProductDto } from "../dao/DTO/products.Dto.js";
 
 export class productRepository{
     constructor(dao){
-        this.dao = dao
+        this.dao = dao;
     }
-    async getProducts(){
-        const product = await this.dao.get();
-        return product;
+    getProducts(){
+        /* const product = await  */
+        return this.dao.getProducts()
+        console.log(product);
     }
     async createProduct(product){
         const productDto = new createProductsDto(product);

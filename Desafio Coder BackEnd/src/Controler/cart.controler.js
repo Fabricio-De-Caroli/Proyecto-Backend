@@ -8,7 +8,7 @@ import cartModel from "../dao/models/cart.model.js";
 class cartController{
     static getCart = async (req,res)=>{
         const cid = req.params.cid;
-        const cartID = await cartDao.getCart({_id:id})
+        const cartID = await cartDao.getCarts({_id:id})
         res.send({
             status:"succes",
             msg:`Se trajo el carro con ID : ${cid}`,
@@ -16,10 +16,10 @@ class cartController{
         })
     }
     static createCart = async (req,res)=>{
-        const cart = req.body
+        /* const cart = req.body */
         const carts = await cartDao.createCart()
         res.send({
-            statys:"succes",
+            status:"success",
             msg:"Carrito añadido",
             carrito: carts
         })
@@ -29,7 +29,7 @@ class cartController{
         const pid = req.params.pid;
         const quantity = req.params.quantity;
     
-        const cart =  await  cartMongo.addProductInCart(pid,  cid,  quantity)
+        const cart =  await cartMongo.addProductInCart(pid,cid,quantity)
         res.send({
             statys:"succes",
             msg: cart
